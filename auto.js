@@ -23,11 +23,15 @@ function main() {
   const scene = new THREE.Scene();
   scene.background = new THREE.Color('black');
 
+  // Se crea el grupo auto, todo el grupo puede ser rotado, escalado 
+  const auto = new THREE.Group();
+
+  // Modulo: Plano
   {
     const planeSize = 40;
 
     const loader = new THREE.TextureLoader();
-    const texture = loader.load('https://threejsfundamentals.org/threejs/resources/images/checker.png');
+    const texture = loader.load('./threejs/resources/images/checker.png');
     texture.wrapS = THREE.RepeatWrapping;
     texture.wrapT = THREE.RepeatWrapping;
     texture.magFilter = THREE.NearestFilter;
@@ -43,24 +47,206 @@ function main() {
     mesh.rotation.x = Math.PI * -.5;
     scene.add(mesh);
   }
-  {
-    const cubeSize = 4;
-    const cubeGeo = new THREE.BoxBufferGeometry(cubeSize, cubeSize, cubeSize);
-    const cubeMat = new THREE.MeshStandardMaterial({color: '#8AC'});
-    const mesh = new THREE.Mesh(cubeGeo, cubeMat);
-    mesh.position.set(cubeSize + 1, cubeSize / 2, 0);
-    scene.add(mesh);
+
+  function nuevoMeshPhysicalMaterial() {
+    const material = new THREE.MeshPhysicalMaterial({
+      side: THREE.DoubleSide,
+    });
+
+    const hue = Math.random();
+    const saturation = 1;
+    const luminance = .5;
+    material.color.setHSL(hue, saturation, luminance);
+
+    return material;
   }
+
+  // Techo
   {
-    const sphereRadius = 3;
-    const sphereWidthDivisions = 32;
-    const sphereHeightDivisions = 16;
-    const sphereGeo = new THREE.SphereBufferGeometry(sphereRadius, sphereWidthDivisions, sphereHeightDivisions);
-    const sphereMat = new THREE.MeshStandardMaterial({color: '#CA8'});
-    const mesh = new THREE.Mesh(sphereGeo, sphereMat);
-    mesh.position.set(-sphereRadius - 1, sphereRadius + 2, 0);
-    scene.add(mesh);
+    const width = 2.948957;
+    const height = 0.1;
+    const depth = 2.600055;
+    const geometry = new THREE.BoxBufferGeometry( width, height, depth);
+    const cube = new THREE.Mesh( geometry, nuevoMeshPhysicalMaterial());
+    cube.position.set(0, 6.54837, -1.068131);
+    auto.add(cube);
   }
+
+  // Capo
+  {
+    const width = 2.94896;
+    const height = 0.1;
+    const depth = 2.185710874138892;
+    const geometry = new THREE.BoxBufferGeometry( width, height, depth);
+    const cube = new THREE.Mesh( geometry, nuevoMeshPhysicalMaterial());
+    cube.position.set(0, 3.90355, 1.7934965);
+    cube.rotation.set(0.0767945,0,0);
+    auto.add(cube);
+  }
+
+  // Chapería Derecha
+  {
+    // Parte trasera: Es un rectángulo Perfecto
+    {
+      const width = 0.1;
+      const height = 1.600610;
+      const depth = 3.761848;
+      const geometry = new THREE.BoxBufferGeometry( width, height, depth);
+      const cube = new THREE.Mesh( geometry, nuevoMeshPhysicalMaterial());
+      cube.position.set(1.47448, 3.216545, -1.082516,);
+      auto.add(cube);
+    }
+    // Parte delantera: Es un cuadrilátero irregular
+    {
+      //https://threejsfundamentals.org/threejs/lessons/threejs-custom-geometry.html
+      const geometry = new THREE.Geometry();
+      geometry.vertices.push(
+        new THREE.Vector3(1.3975, 2.41624,  2.87846),  // 0
+        new THREE.Vector3(1.47448, 2.41624,  2.87846),  // 1
+        
+        new THREE.Vector3(1.3975,  3.79025,  2.87846),  // 2
+        new THREE.Vector3(1.47448, 3.79025,  2.87846),  // 3
+        
+        new THREE.Vector3(1.3975, 2.41624, 0.798408),  // 4
+        new THREE.Vector3(1.47448, 2.41624, 0.798408),  // 5
+        
+        new THREE.Vector3(1.3975,  4.01685, 0.798408),  // 6
+        new THREE.Vector3(1.47448,  4.01685, 0.798408),  // 7
+        
+      );
+        /*
+        6----7
+        /|   /|
+      2----3 |
+      | |  | |
+      | 4--|-5
+      |/   |/
+      0----1
+        */
+      geometry.faces.push(
+        // front
+        new THREE.Face3(0, 3, 2),
+        new THREE.Face3(0, 1, 3),
+        // right
+        new THREE.Face3(1, 7, 3),
+        new THREE.Face3(1, 5, 7),
+        // back
+        new THREE.Face3(5, 6, 7),
+        new THREE.Face3(5, 4, 6),
+        // left
+        new THREE.Face3(4, 2, 6),
+        new THREE.Face3(4, 0, 2),
+        // top
+        new THREE.Face3(2, 7, 6),
+        new THREE.Face3(2, 3, 7),
+        // bottom
+        new THREE.Face3(4, 1, 0),
+        new THREE.Face3(4, 5, 1),
+      );
+      
+      // Calcular las normales
+      geometry.computeFaceNormals();
+      geometry.computeVertexNormals();
+      
+      const cube = new THREE.Mesh(geometry, nuevoMeshPhysicalMaterial());
+      auto.add(cube);
+    }
+
+  }
+  // Chapería Izquierda
+  {
+    // Parte trasera: Es un rectángulo Perfecto
+    {
+      const width = 0.1;
+      const height = 1.600610;
+      const depth = 3.761848;
+      const geometry = new THREE.BoxBufferGeometry( width, height, depth);
+      const cube = new THREE.Mesh( geometry, nuevoMeshPhysicalMaterial());
+      cube.position.set(-1.47448, 3.216545, -1.082516,);
+      auto.add(cube);
+    }
+    // Parte delantera: Es un cuadrilátero irregular
+    {
+      //https://threejsfundamentals.org/threejs/lessons/threejs-custom-geometry.html
+      const geometry = new THREE.Geometry();
+      geometry.vertices.push(
+        new THREE.Vector3(-1.3975, 2.41624,  2.87846),  // 0
+        new THREE.Vector3(-1.47448, 2.41624,  2.87846),  // 1
+        
+        new THREE.Vector3(-1.3975,  3.79025,  2.87846),  // 2
+        new THREE.Vector3(-1.47448, 3.79025,  2.87846),  // 3
+        
+        new THREE.Vector3(-1.3975, 2.41624, 0.798408),  // 4
+        new THREE.Vector3(-1.47448, 2.41624, 0.798408),  // 5
+        
+        new THREE.Vector3(-1.3975,  4.01685, 0.798408),  // 6
+        new THREE.Vector3(-1.47448,  4.01685, 0.798408),  // 7
+        
+      );
+        /*
+        6----7
+        /|   /|
+      2----3 |
+      | |  | |
+      | 4--|-5
+      |/   |/
+      0----1
+        */
+      geometry.faces.push(
+        // front
+        new THREE.Face3(0, 3, 2),
+        new THREE.Face3(0, 1, 3),
+        // right
+        new THREE.Face3(1, 7, 3),
+        new THREE.Face3(1, 5, 7),
+        // back
+        new THREE.Face3(5, 6, 7),
+        new THREE.Face3(5, 4, 6),
+        // left
+        new THREE.Face3(4, 2, 6),
+        new THREE.Face3(4, 0, 2),
+        // top
+        new THREE.Face3(2, 7, 6),
+        new THREE.Face3(2, 3, 7),
+        // bottom
+        new THREE.Face3(4, 1, 0),
+        new THREE.Face3(4, 5, 1),
+      );
+      
+      // Calcular las normales
+      geometry.computeFaceNormals();
+      geometry.computeVertexNormals();
+      
+      const cube = new THREE.Mesh(geometry, nuevoMeshPhysicalMaterial());
+      auto.add(cube);
+    }
+
+  }
+
+  // Piso
+  {
+    const width = 2.948957;
+    const height = 0.1;
+    const depth = 5.841903;
+    const geometry = new THREE.BoxBufferGeometry( width, height, depth);
+    const cube = new THREE.Mesh( geometry, nuevoMeshPhysicalMaterial());
+    cube.position.set(0, 2.41624, -0.04249);
+    auto.add(cube);
+  }
+
+  // Parte trasera
+  {
+    const width = 2.948957;
+    const height = 1.600610;
+    const depth = 0.1;
+    const geometry = new THREE.BoxBufferGeometry( width, height, depth);
+    const cube = new THREE.Mesh( geometry, nuevoMeshPhysicalMaterial());
+    cube.position.set(0,3.216545, -2.96344);
+    auto.add(cube);
+  }
+
+  // Agrega el grupo auto a la escena
+  scene.add(auto);
 
   class ColorGUIHelper {
     constructor(object, prop) {
