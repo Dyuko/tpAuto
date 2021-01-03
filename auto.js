@@ -65,273 +65,182 @@ function main() {
     return material;
   }
 
-  // Techo
-  {
-    const width = anchoAuto;
-    const height = 0.1;
-    const depth = 2.600055;
+  function nuevoCube({width, height, depth, positionX, positionY, positionZ, rotationX, rotationY, rotationZ}) {
     const geometry = new THREE.BoxBufferGeometry( width, height, depth);
     const cube = new THREE.Mesh( geometry, nuevoMeshPhysicalMaterial());
-    cube.position.set(0, 6.54837, -1.068131);
+    cube.position.set(positionX, positionY, positionZ);
+    cube.rotation.set(rotationX, rotationY, rotationZ);
     auto.add(cube);
+  }
+
+  //https://threejsfundamentals.org/threejs/lessons/threejs-custom-geometry.html
+  function nuevoCubeIrregular(matrizCoordenadas) {
+    const geometry = new THREE.Geometry();
+    var i;
+    for(i=0; i<=7; i++) {
+      geometry.vertices.push(
+        new THREE.Vector3(matrizCoordenadas[i][0], matrizCoordenadas[i][1],  matrizCoordenadas[i][2])
+      );
+    }
+      /*
+      6----7
+      /|   /|
+    2----3 |
+    | |  | |
+    | 4--|-5
+    |/   |/
+    0----1
+      */
+    geometry.faces.push(
+      // front
+      new THREE.Face3(0, 3, 2),
+      new THREE.Face3(0, 1, 3),
+      // right
+      new THREE.Face3(1, 7, 3),
+      new THREE.Face3(1, 5, 7),
+      // back
+      new THREE.Face3(5, 6, 7),
+      new THREE.Face3(5, 4, 6),
+      // left
+      new THREE.Face3(4, 2, 6),
+      new THREE.Face3(4, 0, 2),
+      // top
+      new THREE.Face3(2, 7, 6),
+      new THREE.Face3(2, 3, 7),
+      // bottom
+      new THREE.Face3(4, 1, 0),
+      new THREE.Face3(4, 5, 1),
+    );
+    
+    // Calcular las normales
+    geometry.computeFaceNormals();
+    geometry.computeVertexNormals();
+    
+    const cube = new THREE.Mesh(geometry, nuevoMeshPhysicalMaterial());
+    auto.add(cube);
+
+  }
+
+  // Techo
+  {
+    const dims = {width:anchoAuto, height:0.1, depth:2.600055, positionX:0, positionY:6.54837, positionZ:-1.068131, rotationX:0, rotationY:0, rotationZ:0};
+    nuevoCube(dims);
   }
 
   // Capo
   {
-    const width = anchoAuto;
-    const height = 0.1;
-    const depth = 2.185710874138892;
-    const geometry = new THREE.BoxBufferGeometry( width, height, depth);
-    const cube = new THREE.Mesh( geometry, nuevoMeshPhysicalMaterial());
-    cube.position.set(0, 3.90355, 1.7934965);
-    cube.rotation.set(0.0767945,0,0);
-    auto.add(cube);
+    const dims = {width:anchoAuto, height:0.1, depth:2.185710874138892, positionX:0, positionY:3.90355, positionZ:1.7934965, rotationX:0.0767945, rotationY:0, rotationZ:0};
+    nuevoCube(dims);
   }
 
   // Chapería Lateral
   {
-    // Parte trasera: Es un rectángulo Perfecto
+    // Parte trasera: Es un cubo Perfecto
     {
       // Izquierda
-      const width = 0.034;
-      const height = 1.600610;
-      const depth = 3.761848;
-      const geometry = new THREE.BoxBufferGeometry( width, height, depth);
-      const cube = new THREE.Mesh( geometry, nuevoMeshPhysicalMaterial());
-      cube.position.set(-1.47448, 3.216545, -1.082516,);
-      auto.add(cube);
+      const dims = {width:0.034, height:1.600610, depth:3.761848, positionX:-1.47448, positionY:3.216545, positionZ:-1.082516, rotationX:0, rotationY:0, rotationZ:0};
+      nuevoCube(dims);
       // Derecha
-      const cubeD = new THREE.Mesh( geometry, nuevoMeshPhysicalMaterial());
-      cubeD.position.set(1.47448, 3.216545, -1.082516);
-      auto.add(cubeD);
+      dims.positionX = dims.positionX * -1;
+      nuevoCube(dims);
     }
-    // Parte delantera: Es un cuadrilátero irregular
+    // Parte delantera: Es un cubo irregular
     {
-      //https://threejsfundamentals.org/threejs/lessons/threejs-custom-geometry.html
       //Izquierda
       {
-        const geometry = new THREE.Geometry();
-        geometry.vertices.push(
-          new THREE.Vector3(-1.47448, 2.41624,  2.87846),  // 1
-          new THREE.Vector3(-1.3975, 2.41624,  2.87846),  // 0
-          
-          new THREE.Vector3(-1.47448, 3.79025,  2.87846),  // 3
-          new THREE.Vector3(-1.3975,  3.79025,  2.87846),  // 2
-          
-          new THREE.Vector3(-1.47448, 2.41624, 0.798408),  // 5
-          new THREE.Vector3(-1.3975, 2.41624, 0.798408),  // 4
-          
-          new THREE.Vector3(-1.47448,  4.01685, 0.798408),  // 7
-          new THREE.Vector3(-1.3975,  4.01685, 0.798408),  // 6
-          
-          
-        );
-          /*
-          6----7
-          /|   /|
-        2----3 |
-        | |  | |
-        | 4--|-5
-        |/   |/
-        0----1
-          */
-        geometry.faces.push(
-          // front
-          new THREE.Face3(0, 3, 2),
-          new THREE.Face3(0, 1, 3),
-          // right
-          new THREE.Face3(1, 7, 3),
-          new THREE.Face3(1, 5, 7),
-          // back
-          new THREE.Face3(5, 6, 7),
-          new THREE.Face3(5, 4, 6),
-          // left
-          new THREE.Face3(4, 2, 6),
-          new THREE.Face3(4, 0, 2),
-          // top
-          new THREE.Face3(2, 7, 6),
-          new THREE.Face3(2, 3, 7),
-          // bottom
-          new THREE.Face3(4, 1, 0),
-          new THREE.Face3(4, 5, 1),
-        );
-        
-        // Calcular las normales
-        geometry.computeFaceNormals();
-        geometry.computeVertexNormals();
-        
-        const cube = new THREE.Mesh(geometry, nuevoMeshPhysicalMaterial());
-        auto.add(cube);
+        const matrizCoordenadas = [
+                              [-1.47448, 2.41624,  2.87846],
+                              [-1.3975, 2.41624,  2.87846],
+                              [-1.47448, 3.79025,  2.87846],
+                              [-1.3975,  3.79025,  2.87846],
+                              [-1.47448, 2.41624, 0.798408],
+                              [-1.3975, 2.41624, 0.798408],
+                              [-1.47448,  4.01685, 0.798408],
+                              [-1.3975,  4.01685, 0.798408]
+                            ];
+        nuevoCubeIrregular(matrizCoordenadas);
       }
       // Derecha
       {
-        const geometry = new THREE.Geometry();
-        geometry.vertices.push(
-          new THREE.Vector3(1.3975, 2.41624,  2.87846),  // 0
-          new THREE.Vector3(1.47448, 2.41624,  2.87846),  // 1
-          
-          new THREE.Vector3(1.3975,  3.79025,  2.87846),  // 2
-          new THREE.Vector3(1.47448, 3.79025,  2.87846),  // 3
-          
-          new THREE.Vector3(1.3975, 2.41624, 0.798408),  // 4
-          new THREE.Vector3(1.47448, 2.41624, 0.798408),  // 5
-          
-          new THREE.Vector3(1.3975,  4.01685, 0.798408),  // 6
-          new THREE.Vector3(1.47448,  4.01685, 0.798408),  // 7
-          
-        );
-          /*
-          6----7
-          /|   /|
-        2----3 |
-        | |  | |
-        | 4--|-5
-        |/   |/
-        0----1
-          */
-        geometry.faces.push(
-          // front
-          new THREE.Face3(0, 3, 2),
-          new THREE.Face3(0, 1, 3),
-          // right
-          new THREE.Face3(1, 7, 3),
-          new THREE.Face3(1, 5, 7),
-          // back
-          new THREE.Face3(5, 6, 7),
-          new THREE.Face3(5, 4, 6),
-          // left
-          new THREE.Face3(4, 2, 6),
-          new THREE.Face3(4, 0, 2),
-          // top
-          new THREE.Face3(2, 7, 6),
-          new THREE.Face3(2, 3, 7),
-          // bottom
-          new THREE.Face3(4, 1, 0),
-          new THREE.Face3(4, 5, 1),
-        );
-        
-        // Calcular las normales
-        geometry.computeFaceNormals();
-        geometry.computeVertexNormals();
-        
-        const cube = new THREE.Mesh(geometry, nuevoMeshPhysicalMaterial());
-        auto.add(cube);
+        const matrizCoordenadas = [
+                              [1.3975, 2.41624,  2.87846],  // 0
+                              [1.47448, 2.41624,  2.87846],  // 1
+                              [1.3975,  3.79025,  2.87846],  // 2
+                              [1.47448, 3.79025,  2.87846],  // 3
+                              [1.3975, 2.41624, 0.798408],  // 4
+                              [1.47448, 2.41624, 0.798408],  // 5
+                              [1.3975,  4.01685, 0.798408],  // 6
+                              [1.47448,  4.01685, 0.798408]  // 7
+                            ];
+        nuevoCubeIrregular(matrizCoordenadas);    
       }
     }
-
   }
 
   // Piso
   {
-    const width = anchoAuto;
-    const height = 0.1;
-    const depth = 5.841903;
-    const geometry = new THREE.BoxBufferGeometry( width, height, depth);
-    const cube = new THREE.Mesh( geometry, nuevoMeshPhysicalMaterial());
-    cube.position.set(0, 2.41624, -0.04249);
-    auto.add(cube);
+    const dims = {width:anchoAuto, height:0.1, depth:5.841903, positionX:0, positionY:2.41624, positionZ:-0.04249, rotationX:0, rotationY:0, rotationZ:0};
+    nuevoCube(dims);
   }
 
   // Parte trasera
   {
-    const width = anchoAuto;
-    const height = 1.600610;
-    const depth = 0.1;
-    const geometry = new THREE.BoxBufferGeometry( width, height, depth);
-    const cube = new THREE.Mesh( geometry, nuevoMeshPhysicalMaterial());
-    cube.position.set(0,3.216545, -2.96344);
-    auto.add(cube);
+    const dims = {width:anchoAuto, height:1.600610, depth:0.1, positionX:0, positionY:3.216545, positionZ:-2.96344, rotationX:0, rotationY:0, rotationZ:0};
+    nuevoCube(dims);
   }
 
   // Parte trasera superior
   {
-    const width = anchoAuto;
-    const height = 0.03;
-    const depth = 0.6;
-    const geometry = new THREE.BoxBufferGeometry( width, height, depth);
-    const cube = new THREE.Mesh( geometry, nuevoMeshPhysicalMaterial());
-    cube.position.set(0,4.016855, -2.63307);
-    auto.add(cube);
+    const dims = {width:anchoAuto, height:0.03, depth:0.6, positionX:0, positionY:4.016855, positionZ:-2.63307, rotationX:0, rotationY:0, rotationZ:0};
+    nuevoCube(dims);
   }
 
   //Sujetadores de vidrios
   // Columnas verticales traseras
   {
-    const width = anchoColumnaSujetaVidrio;
-    const height = 2.535097;
-    const depth = anchoColumnaSujetaVidrio;
     // Izquierda
-    const geometry = new THREE.BoxBufferGeometry( width, height, depth);
-    const cube = new THREE.Mesh( geometry, nuevoMeshPhysicalMaterial());
-    cube.position.set(-1.43016,5.28261, -2.386775);
-    auto.add(cube);
+    const dims = {width:anchoColumnaSujetaVidrio, height:2.535097, depth:anchoColumnaSujetaVidrio, positionX:-1.43016, positionY:5.28261, positionZ:-2.386775, rotationX:0, rotationY:0, rotationZ:0};
+    nuevoCube(dims);
     // Derecha
-    const geometryD = new THREE.BoxBufferGeometry( width, height, depth);
-    const cubeD = new THREE.Mesh( geometry, nuevoMeshPhysicalMaterial());
-    cubeD.position.set(1.43016,5.28261, -2.386775);
-    auto.add(cubeD);
+    dims.positionX = dims.positionX * -1;
+    nuevoCube(dims);
   }
   // Columnas verticales delanteras
   {
-    const width = anchoColumnaSujetaVidrio;
-    const height = 2.577096;
-    const depth = anchoColumnaSujetaVidrio;
     // Izquierda
-    const geometry = new THREE.BoxBufferGeometry( width, height, depth);
-    const cube = new THREE.Mesh( geometry, nuevoMeshPhysicalMaterial());
-    cube.position.set(-1.43599,5.28261, 0.4827995);
-    cube.rotation.set(-0.18,0,0);
-    auto.add(cube);
+    const dims = {width:anchoColumnaSujetaVidrio, height:2.577096, depth:anchoColumnaSujetaVidrio, positionX:-1.43599, positionY:5.28261, positionZ:0.4827995, rotationX:-0.18, rotationY:0, rotationZ:0};
+    nuevoCube(dims);
     // Derecha
-    const cubeD = new THREE.Mesh( geometry, nuevoMeshPhysicalMaterial());
-    cubeD.position.set(1.43599,5.28261, 0.4827995);
-    cubeD.rotation.set(-0.18,0,0);
-    auto.add(cubeD);
+    dims.positionX = dims.positionX * -1;
+    nuevoCube(dims);
   }
   // Columnas horizontales traseras
   {
-    const width = anchoAuto;
-    const height = anchoColumnaSujetaVidrio;
-    const depth = anchoColumnaSujetaVidrio;
     // Inferior
-    const geometry = new THREE.BoxBufferGeometry( width, height, depth);
-    const cube = new THREE.Mesh( geometry, nuevoMeshPhysicalMaterial());
-    cube.position.set(0, 4.03465, -2.386775);
-    auto.add(cube);
+    const dims = {width:anchoAuto, height:anchoColumnaSujetaVidrio, depth:anchoColumnaSujetaVidrio, positionX:0, positionY:4.03465, positionZ:-2.386775, rotationX:0, rotationY:0, rotationZ:0};
+    nuevoCube(dims);
     // Superior
-    const cubeS = new THREE.Mesh( geometry, nuevoMeshPhysicalMaterial());
-    cubeS.position.set(0, 6.54837, -2.386775);
-    auto.add(cubeS);
+    dims.positionY = 6.54837;
+    nuevoCube(dims);
   }
   // Columnas horizontales delanteras
   {
-    const width = anchoAuto;
-    const height = anchoColumnaSujetaVidrio;
-    const depth = anchoColumnaSujetaVidrio;
     // Inferior
-    const geometry = new THREE.BoxBufferGeometry( width, height, depth);
-    const cube = new THREE.Mesh( geometry, nuevoMeshPhysicalMaterial());
-    cube.position.set(0, 4.03465, 0.7);
-    auto.add(cube);
+    const dims = {width:anchoAuto, height:anchoColumnaSujetaVidrio, depth:anchoColumnaSujetaVidrio, positionX:0, positionY:4.03465, positionZ:0.7, rotationX:0, rotationY:0, rotationZ:0};
+    nuevoCube(dims);
     // Superior
-    const cubeS = new THREE.Mesh( geometry, nuevoMeshPhysicalMaterial());
-    cubeS.position.set(0, 6.54837, 0.245);
-    auto.add(cubeS);
+    dims.positionY = 6.54837;
+    dims.positionZ = 0.245;
+    nuevoCube(dims);
   }
   //Columna horizontal lateral inferior
   {
-    const width = anchoColumnaSujetaVidrio;
-    const height = anchoColumnaSujetaVidrio;
-    const depth = 3.1;
     // Izquierda
-    const geometry = new THREE.BoxBufferGeometry( width, height, depth);
-    const cube = new THREE.Mesh( geometry, nuevoMeshPhysicalMaterial());
-    cube.position.set(-1.43599, 4.03465, -0.851201);
-    auto.add(cube);
+    const dims = {width:anchoColumnaSujetaVidrio, height:anchoColumnaSujetaVidrio, depth:3.1, positionX:-1.43599, positionY:4.03465, positionZ:-0.851201, rotationX:0, rotationY:0, rotationZ:0};
+    nuevoCube(dims);
     // Derecha
-    const cubeD = new THREE.Mesh( geometry, nuevoMeshPhysicalMaterial());
-    cubeD.position.set(1.43599, 4.03465, -0.851201);
-    auto.add(cubeD);
+    dims.positionX = dims.positionX * -1;
+    nuevoCube(dims);
   } 
 
   // Agrega el grupo auto a la escena
