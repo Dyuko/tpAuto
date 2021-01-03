@@ -379,6 +379,48 @@ function main() {
     dims.positionX = dims.positionX * -1;
     nuevoCylinder(dims);
   }
+  // Neumáticos
+  {
+    // Delanteras
+    {
+      // Izquierda
+      const dims = {radiusTop:0.34, radiusBottom:0.34, height: 0.31, radialSegments: 50, positionX: -1.496305, positionY: 2.371045, positionZ: 1.10043, rotationX:0, rotationY:0, rotationZ:1.5708};
+      nuevoCylinder(dims);
+      // Derecha
+      dims.positionX = dims.positionX * -1;
+      nuevoCylinder(dims);
+    }
+    // Traseras
+    {
+      // Izquierda
+      const dims = {radiusTop:0.34, radiusBottom:0.34, height: 0.31, radialSegments: 50, positionX: -1.496305, positionY: 2.371045, positionZ: -2.20148, rotationX:0, rotationY:0, rotationZ:1.5708};
+      nuevoCylinder(dims);
+      // Derecha
+      dims.positionX = dims.positionX * -1;
+      nuevoCylinder(dims);
+    }
+  }
+  // Llantas
+  {
+    // Delanteras
+    {
+      // Izquierda
+      const dims = {radiusTop:0.195, radiusBottom:0.195, height: 0.18, radialSegments: 50, positionX: -1.56489, positionY: 2.373645, positionZ: 1.10043, rotationX:0, rotationY:0, rotationZ:1.5708};
+      nuevoCylinder(dims);
+      // Derecha
+      dims.positionX = dims.positionX * -1;
+      nuevoCylinder(dims);
+    }
+    // Traseras
+    {
+      // Izquierda
+      const dims = {radiusTop:0.195, radiusBottom:0.195, height: 0.18, radialSegments: 50, positionX: -1.56489, positionY: 2.373645, positionZ: -2.20148, rotationX:0, rotationY:0, rotationZ:1.5708};
+      nuevoCylinder(dims);
+      // Derecha
+      dims.positionX = dims.positionX * -1;
+      nuevoCylinder(dims);
+    }
+  }
 
   // Agrega el grupo auto a la escena
   scene.add(auto);
