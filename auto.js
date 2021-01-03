@@ -460,45 +460,80 @@ function main() {
   }
 
   // Asiento derecho
-  // Espalda
-  {
-    const dims = {width:1.263832, height:2.16, depth:0.2928, positionX:0.6419, positionY:4.13126, positionZ:-0.990024, rotationX:0, rotationY:0, rotationZ:0};
-    nuevoCube(dims);
+    {
+    // Espalda
+    {
+      const dims = {width:1.263832, height:2.16, depth:0.2928, positionX:0.6419, positionY:4.13126, positionZ:-0.990024, rotationX:0, rotationY:0, rotationZ:0};
+      nuevoCube(dims);
+    }
+    // Trasero
+    {
+      const dims = {width:1.263832, height:0.4, depth:1.33, positionX:0.6419, positionY:3.25804, positionZ:-0.4714465, rotationX:0, rotationY:0, rotationZ:0};
+      nuevoCube(dims);
+    }
+    // Portabrazos
+    {
+      // Derecha
+      const dims = {width:0.1931, height:0.7, depth:1.2, positionX:1.181645, positionY:3.47, positionZ:-0.50, rotationX:0, rotationY:0, rotationZ:0};
+      nuevoCube(dims);
+      // Izquierda
+      dims.positionX = 0.1042;
+      nuevoCube(dims);
+    }
   }
-  // Trasero
-  {
-    const dims = {width:1.263832, height:0.4, depth:1.33, positionX:0.6419, positionY:3.25804, positionZ:-0.4714465, rotationX:0, rotationY:0, rotationZ:0};
-    nuevoCube(dims);
-  }
-  // Portabrazos
-  {
-    // Derecha
-    const dims = {width:0.1931, height:0.7, depth:1.2, positionX:1.181645, positionY:3.47, positionZ:-0.50, rotationX:0, rotationY:0, rotationZ:0};
-    nuevoCube(dims);
-    // Izquierda
-    dims.positionX = 0.1042;
-    nuevoCube(dims);
-  }
-
   // Asiento izquierdo
-  // Espalda
   {
-    const dims = {width:1.263832, height:2.16, depth:0.2928, positionX:-0.6419, positionY:4.13126, positionZ:-0.990024, rotationX:0, rotationY:0, rotationZ:0};
-    nuevoCube(dims);
+    // Espalda
+    {
+      const dims = {width:1.263832, height:2.16, depth:0.2928, positionX:-0.6419, positionY:4.13126, positionZ:-0.990024, rotationX:0, rotationY:0, rotationZ:0};
+      nuevoCube(dims);
+    }
+    // Trasero
+    {
+      const dims = {width:1.263832, height:0.4, depth:1.33, positionX:-0.6419, positionY:3.25804, positionZ:-0.4714465, rotationX:0, rotationY:0, rotationZ:0};
+      nuevoCube(dims);
+    }
+    // Portabrazos
+    {
+      // Derecha
+      const dims = {width:0.1931, height:0.7, depth:1.2, positionX:-1.181645, positionY:3.47, positionZ:-0.50, rotationX:0, rotationY:0, rotationZ:0};
+      nuevoCube(dims);
+      // Izquierda
+      dims.positionX = -0.1042;
+      nuevoCube(dims);
+    }
   }
-  // Trasero
+  //Volante
   {
-    const dims = {width:1.263832, height:0.4, depth:1.33, positionX:-0.6419, positionY:3.25804, positionZ:-0.4714465, rotationX:0, rotationY:0, rotationZ:0};
-    nuevoCube(dims);
-  }
-  // Portabrazos
-  {
-    // Derecha
-    const dims = {width:0.1931, height:0.7, depth:1.2, positionX:-1.181645, positionY:3.47, positionZ:-0.50, rotationX:0, rotationY:0, rotationZ:0};
-    nuevoCube(dims);
-    // Izquierda
-    dims.positionX = -0.1042;
-    nuevoCube(dims);
+    // Torus
+    {
+      const dims = {radius:0.3, tube:0.05, radialSegments:10, tubularSegments:20, arc:6.3, positionX:0.830285, positionY:3.99368, positionZ:0.356679, rotationX:0, rotationY:0, rotationZ:0};
+      nuevoTorus(dims);      
+    }
+    // La "Y" del volante
+    {
+      {
+        const dims = {width:0.11, height:0.32, depth:0.02, positionX:0.9, positionY:4.081625, positionZ:0.3538985, rotationX:0, rotationY:0, rotationZ:-0.78};
+        nuevoCube(dims);
+      }
+      {
+        const dims = {width:0.11, height:0.32, depth:0.02, positionX:0.75, positionY:4.081625, positionZ:0.3538985, rotationX:0, rotationY:0, rotationZ:0.78};
+        nuevoCube(dims);
+      }
+      {
+        const dims = {width:0.11, height:0.32, depth:0.02, positionX:0.75, positionY:4.081625, positionZ:0.3538985, rotationX:0, rotationY:0, rotationZ:0.78};
+        nuevoCube(dims);
+      }
+      {
+        const dims = {width:0.11, height:0.32, depth:0.02, positionX:0.830285, positionY:3.9, positionZ:0.3538985, rotationX:0, rotationY:0, rotationZ:0};
+        nuevoCube(dims);
+      }
+    }
+    // El tronco
+    {
+      const dims = {width:0.06, height:0.06, depth:0.35, positionX:0.830285, positionY:4, positionZ:0.55, rotationX:0.2, rotationY:0, rotationZ:0};
+      nuevoCube(dims);
+    }
   }
 
   // Agrega el grupo auto a la escena
