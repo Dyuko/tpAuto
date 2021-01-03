@@ -65,18 +65,35 @@ function main() {
     return material;
   }
 
-  function nuevoCube({width, height, depth, positionX, positionY, positionZ, rotationX, rotationY, rotationZ}) {
+  function nuevoMeshPhysicalMaterialVidrio() {
+    const material = new THREE.MeshPhysicalMaterial({
+      side: THREE.DoubleSide,
+      transparent: true,
+      opacity: 0.3
+
+    });
+    return material;
+  }
+
+  function nuevoCube({width, height, depth, positionX, positionY, positionZ, rotationX, rotationY, rotationZ, booleanVidrio= false}) {
     const geometry = new THREE.BoxBufferGeometry( width, height, depth);
-    const cube = new THREE.Mesh( geometry, nuevoMeshPhysicalMaterial());
+    let cube;
+    if(booleanVidrio) {
+      cube = new THREE.Mesh( geometry, nuevoMeshPhysicalMaterialVidrio());
+    }
+    else
+    {
+      cube = new THREE.Mesh( geometry, nuevoMeshPhysicalMaterial());
+    }
     cube.position.set(positionX, positionY, positionZ);
     cube.rotation.set(rotationX, rotationY, rotationZ);
     auto.add(cube);
   }
 
   //https://threejsfundamentals.org/threejs/lessons/threejs-custom-geometry.html
-  function nuevoCubeIrregular(matrizCoordenadas) {
+  function nuevoCubeIrregular(matrizCoordenadas, booleanVidrio=false) {
     const geometry = new THREE.Geometry();
-    var i;
+    let i;
     for(i=0; i<=7; i++) {
       geometry.vertices.push(
         new THREE.Vector3(matrizCoordenadas[i][0], matrizCoordenadas[i][1],  matrizCoordenadas[i][2])
@@ -115,8 +132,13 @@ function main() {
     // Calcular las normales
     geometry.computeFaceNormals();
     geometry.computeVertexNormals();
-    
-    const cube = new THREE.Mesh(geometry, nuevoMeshPhysicalMaterial());
+    let cube;
+    if(booleanVidrio) {
+      cube = new THREE.Mesh(geometry, nuevoMeshPhysicalMaterialVidrio());
+    }
+    else {
+      cube = new THREE.Mesh(geometry, nuevoMeshPhysicalMaterial());
+    }
     auto.add(cube);
 
   }
@@ -242,6 +264,54 @@ function main() {
     dims.positionX = dims.positionX * -1;
     nuevoCube(dims);
   } 
+
+  // Vidrios
+  {
+    // Vidrio trasero
+    {
+      const dims = {width:2.791871, height:2.435868, depth:0.05, positionX:0.00583, positionY:5.264985, positionZ:-2.36688, rotationX:0, rotationY:0, rotationZ:0, booleanVidrio:true};
+      nuevoCube(dims);
+    }
+    // Vidrio delantero
+    {
+      const dims = {width:2.791871, height:2.58, depth:0.05, positionX:0.00583, positionY:5.253615, positionZ:0.4706235, rotationX:-0.175, rotationY:0, rotationZ:0, booleanVidrio:true};
+      nuevoCube(dims);
+    }
+    // Vidrio izquierdo
+    {
+      const matrizCoordenadas = [
+        [-1.40164, 4.05245,  0.708534],  // 0
+        [-1.47460, 4.05245,  0.708534],  // 1
+
+        [-1.40164, 6.5,  0.24],  // 2
+        [-1.47460, 6.5,  0.24],  // 3
+
+        [-1.40164, 4.05245, -2.40378],  // 4
+        [-1.47460, 4.05245, -2.40378],  // 5
+
+        [-1.40164,  6.5, -2.40378],  // 6
+        [-1.47460,  6.5, -2.40378]  // 7
+      ];
+      nuevoCubeIrregular(matrizCoordenadas, true);    
+    }
+    // Vidrio derecho
+    {
+      const matrizCoordenadas = [
+        [1.40164, 4.05245,  0.708534],  // 0
+        [1.47460, 4.05245,  0.708534],  // 1
+
+        [1.40164, 6.5,  0.24],  // 2
+        [1.47460, 6.5,  0.24],  // 3
+
+        [1.40164, 4.05245, -2.40378],  // 4
+        [1.47460, 4.05245, -2.40378],  // 5
+
+        [1.40164,  6.5, -2.40378],  // 6
+        [1.47460,  6.5, -2.40378]  // 7
+      ];
+      nuevoCubeIrregular(matrizCoordenadas, true);    
+    }
+  }
 
   // Agrega el grupo auto a la escena
   scene.add(auto);
