@@ -143,6 +143,21 @@ function main() {
 
   }
 
+  function nuevoPlane({width, height, positionX, positionY, positionZ, rotationX, rotationY, rotationZ, booleanVidrio= false}) {
+    const geometry = new THREE.PlaneBufferGeometry(width, height);
+    let plane;
+    if(booleanVidrio) { 
+      plane = new THREE.Mesh( geometry, nuevoMeshPhysicalMaterialVidrio());
+    }
+    else
+    {
+      plane = new THREE.Mesh( geometry, nuevoMeshPhysicalMaterial());
+    }
+    plane.position.set(positionX, positionY, positionZ);
+    plane.rotation.set(rotationX, rotationY, rotationZ);
+    auto.add(plane);
+  }
+
   // Techo
   {
     const dims = {width:anchoAuto, height:0.1, depth:2.600055, positionX:0, positionY:6.54837, positionZ:-1.068131, rotationX:0, rotationY:0, rotationZ:0};
@@ -310,6 +325,34 @@ function main() {
         [1.47460,  6.5, -2.40378]  // 7
       ];
       nuevoCubeIrregular(matrizCoordenadas, true);    
+    }
+
+    // Base Plano Parachoques
+    const dims = {width:anchoAuto, height:1.374007, positionX:0, positionY:3.103245, positionZ:2.77932, rotationX:0, rotationY:0, rotationZ:0};
+    nuevoPlane(dims);
+    // Parachoques: Está compuesto de varios cubos
+    {
+      // Bajo los faros
+      {
+        const dims = {width:0.885046, height:1.374007, depth:0.1, positionX:1.0319565, positionY:3.103245, positionZ:2.83, rotationX:0, rotationY:0, rotationZ:0};
+        nuevoCube(dims);
+        dims.positionX = dims.positionX * -1;
+        nuevoCube(dims);
+      }
+      // En el medio
+      { 
+        const dims = {width:1.178865, height:0.336341, depth:0.1, positionX:0, positionY:3.62208, positionZ:2.83, rotationX:0, rotationY:0, rotationZ:0};
+        nuevoCube(dims);
+        dims.positionY = 2.667755;
+        dims.height = 0.503162;
+        nuevoCube(dims);    
+      }
+      {
+        const dims = {width:1.178865, height:0.080768, depth:0.1, positionX:0, positionY:3.304105, positionZ:2.83, rotationX:0, rotationY:0, rotationZ:0};
+        nuevoCube(dims);     
+        dims.positionY = 3.089025;
+        nuevoCube(dims); 
+      }
     }
   }
 
