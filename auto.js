@@ -106,6 +106,21 @@ function main() {
     auto.add(cylinder);
   }
 
+  function nuevoTorus({radius, tube, radialSegments, tubularSegments, arc, positionX, positionY, positionZ, rotationX, rotationY, rotationZ, booleanVidrio= false}) {
+    const geometry = new THREE.TorusGeometry(radius, tube, radialSegments, tubularSegments, arc);
+    let cylinder;
+    if(booleanVidrio) {
+      cylinder = new THREE.Mesh( geometry, nuevoMeshPhysicalMaterialVidrio());
+    }
+    else
+    {
+      cylinder = new THREE.Mesh( geometry, nuevoMeshPhysicalMaterial());
+    }
+    cylinder.position.set(positionX, positionY, positionZ);
+    cylinder.rotation.set(rotationX, rotationY, rotationZ);
+    auto.add(cylinder);
+  }
+
   //https://threejsfundamentals.org/threejs/lessons/threejs-custom-geometry.html
   function nuevoCubeIrregular(matrizCoordenadas, booleanVidrio=false) {
     const geometry = new THREE.Geometry();
@@ -419,6 +434,28 @@ function main() {
       // Derecha
       dims.positionX = dims.positionX * -1;
       nuevoCylinder(dims);
+    }
+  }
+
+  // Guardafangos
+  {
+    //Traseros
+    {
+      // Izquierda
+      const dims = {radius:0.4, tube:0.13, radialSegments:10, tubularSegments:13, arc:3.1, positionX:-1.56489, positionY:2.373645, positionZ:-2.20148, rotationX:0, rotationY:1.5708, rotationZ:0};
+      nuevoTorus(dims);
+      // Derecha
+      dims.positionX = dims.positionX * -1;
+      nuevoTorus(dims);
+    }
+    // Delanteros
+    {
+      // Izquierda
+      const dims = {radius:0.4, tube:0.13, radialSegments:10, tubularSegments:13, arc:3.1, positionX:-1.56489, positionY:2.373645, positionZ:1.10043, rotationX:0, rotationY:1.5708, rotationZ:0};
+      nuevoTorus(dims);
+      // Derecha
+      dims.positionX = dims.positionX * -1;
+      nuevoTorus(dims);
     }
   }
 
