@@ -359,8 +359,10 @@ function main() {
     }
 
     // Base Plano Parachoques
-    const dims = {width:anchoAuto, height:1.374007, positionX:0, positionY:3.103245, positionZ:2.77932, rotationX:0, rotationY:0, rotationZ:0};
-    nuevoPlane(dims);
+    {
+      const dims = {width:anchoAuto, height:1.374007, positionX:0, positionY:3.103245, positionZ:2.77932, rotationX:0, rotationY:0, rotationZ:0};
+      nuevoPlane(dims);
+    }
     // Parachoques: Está compuesto de varios cubos
     {
       // Bajo los faros
@@ -534,6 +536,12 @@ function main() {
       const dims = {width:0.06, height:0.06, depth:0.35, positionX:0.830285, positionY:4, positionZ:0.55, rotationX:0.2, rotationY:0, rotationZ:0};
       nuevoCube(dims);
     }
+  }
+
+  // Alfombra
+  {
+    const dims = {width:anchoAuto, height:5.841903, positionX:0, positionY:2.85, positionZ:-0.04249, rotationX:1.5708, rotationY:0, rotationZ:0};
+    nuevoPlane(dims);
   }
 
   // Agrega el grupo auto a la escena
