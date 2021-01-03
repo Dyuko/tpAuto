@@ -459,6 +459,48 @@ function main() {
     }
   }
 
+  // Asiento derecho
+  // Espalda
+  {
+    const dims = {width:1.263832, height:2.16, depth:0.2928, positionX:0.6419, positionY:4.13126, positionZ:-0.990024, rotationX:0, rotationY:0, rotationZ:0};
+    nuevoCube(dims);
+  }
+  // Trasero
+  {
+    const dims = {width:1.263832, height:0.4, depth:1.33, positionX:0.6419, positionY:3.25804, positionZ:-0.4714465, rotationX:0, rotationY:0, rotationZ:0};
+    nuevoCube(dims);
+  }
+  // Portabrazos
+  {
+    // Derecha
+    const dims = {width:0.1931, height:0.7, depth:1.2, positionX:1.181645, positionY:3.47, positionZ:-0.50, rotationX:0, rotationY:0, rotationZ:0};
+    nuevoCube(dims);
+    // Izquierda
+    dims.positionX = 0.1042;
+    nuevoCube(dims);
+  }
+
+  // Asiento izquierdo
+  // Espalda
+  {
+    const dims = {width:1.263832, height:2.16, depth:0.2928, positionX:-0.6419, positionY:4.13126, positionZ:-0.990024, rotationX:0, rotationY:0, rotationZ:0};
+    nuevoCube(dims);
+  }
+  // Trasero
+  {
+    const dims = {width:1.263832, height:0.4, depth:1.33, positionX:-0.6419, positionY:3.25804, positionZ:-0.4714465, rotationX:0, rotationY:0, rotationZ:0};
+    nuevoCube(dims);
+  }
+  // Portabrazos
+  {
+    // Derecha
+    const dims = {width:0.1931, height:0.7, depth:1.2, positionX:-1.181645, positionY:3.47, positionZ:-0.50, rotationX:0, rotationY:0, rotationZ:0};
+    nuevoCube(dims);
+    // Izquierda
+    dims.positionX = -0.1042;
+    nuevoCube(dims);
+  }
+
   // Agrega el grupo auto a la escena
   scene.add(auto);
 
