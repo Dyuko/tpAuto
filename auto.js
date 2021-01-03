@@ -90,6 +90,22 @@ function main() {
     auto.add(cube);
   }
 
+  function nuevoCylinder({radiusTop, radiusBottom, height, radialSegments, positionX, positionY, positionZ, rotationX, rotationY, rotationZ, booleanVidrio= false}) {
+    const geometry = new THREE.CylinderBufferGeometry(
+      radiusTop, radiusBottom, height, radialSegments);
+    let cylinder;
+    if(booleanVidrio) {
+      cylinder = new THREE.Mesh( geometry, nuevoMeshPhysicalMaterialVidrio());
+    }
+    else
+    {
+      cylinder = new THREE.Mesh( geometry, nuevoMeshPhysicalMaterial());
+    }
+    cylinder.position.set(positionX, positionY, positionZ);
+    cylinder.rotation.set(rotationX, rotationY, rotationZ);
+    auto.add(cylinder);
+  }
+
   //https://threejsfundamentals.org/threejs/lessons/threejs-custom-geometry.html
   function nuevoCubeIrregular(matrizCoordenadas, booleanVidrio=false) {
     const geometry = new THREE.Geometry();
@@ -354,6 +370,14 @@ function main() {
         nuevoCube(dims); 
       }
     }
+  }
+  // Faros
+  {
+    // Derecho
+    const dims = {radiusTop:0.285, radiusBottom:0.285, height: 0.14, radialSegments: 50, positionX: 1.02, positionY: 3.16157, positionZ: 2.89718, rotationX:1.5708, rotationY:0, rotationZ:0};
+    nuevoCylinder(dims);
+    dims.positionX = dims.positionX * -1;
+    nuevoCylinder(dims);
   }
 
   // Agrega el grupo auto a la escena
