@@ -69,9 +69,11 @@ function main() {
   hue = Math.random();
   materialLlantas.color.setHSL(hue, saturation, luminance);
   // Material Asientos
-  const materialAsientos = new THREE.MeshPhysicalMaterial();
-  hue = Math.random();
-  materialAsientos.color.setHSL(hue, saturation, luminance);
+  const loaderTexture = new THREE.TextureLoader();
+  const materialAsientos = new THREE.MeshPhysicalMaterial({
+    map: loaderTexture.load('./threejs/resources/images/cuero.jpg')
+  });
+  
   // Material Volante
   const materialVolante = new THREE.MeshPhysicalMaterial();
   hue = Math.random();
