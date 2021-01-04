@@ -18,7 +18,7 @@ function main() {
   const near = 0.1;
   const far = 100;
   const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-  camera.position.set(0, 10, 20);
+  camera.position.set(-10, 10, 10);
 
   const controls = new OrbitControls(camera, canvas);
   controls.target.set(0, 5, 0);
@@ -574,21 +574,41 @@ function main() {
     }
   }
 
-  function makeXYZGUI(gui, vector3, name, onChangeFn) {
-    const folder = gui.addFolder(name);
-    folder.add(vector3, 'x', -10, 10).onChange(onChangeFn);
-    folder.add(vector3, 'y', 0, 10).onChange(onChangeFn);
-    folder.add(vector3, 'z', -10, 10).onChange(onChangeFn);
-    folder.open();
+  // MinMaxGUIHelperpara el near y far
+  class MinMaxGUIHelper {
+    constructor(obj, minProp, maxProp, minDif) {
+      this.obj = obj;
+      this.minProp = minProp;
+      this.maxProp = maxProp;
+      this.minDif = minDif;
+    }
+    get min() {
+      return this.obj[this.minProp];
+    }
+    set min(v) {
+      this.obj[this.minProp] = v;
+      this.obj[this.maxProp] = Math.max(this.obj[this.maxProp], v + this.minDif);
+    }
+    get max() {
+      return this.obj[this.maxProp];
+    }
+    set max(v) {
+      this.obj[this.maxProp] = v;
+      this.min = this.min;  // esto llamará al min setter
+    }
+  }
+
+  function updateCamera() {
+    camera.updateProjectionMatrix();
   }
 
   {
     const color = 0xFFFFFF;
-    const intensity = 5;
-    const width = 12;
-    const height = 4;
+    const intensity = 2.04;
+    const width = 20;
+    const height = 20;
     const light = new THREE.RectAreaLight(color, intensity, width, height);
-    light.position.set(0, 10, 0);
+    light.position.set(0, 13, 0);
     light.rotation.x = THREE.MathUtils.degToRad(-90);
     scene.add(light);
 
@@ -600,15 +620,43 @@ function main() {
     }
 
     const gui = new GUI();
-    gui.addColor(new ColorGUIHelper(light, 'color'), 'value').name('color');
-    gui.add(light, 'intensity', 0, 10, 0.01);
-    gui.add(light, 'width', 0, 20).onChange(updateLight);
-    gui.add(light, 'height', 0, 20).onChange(updateLight);
-    gui.add(new DegRadHelper(light.rotation, 'x'), 'value', -180, 180).name('x rotation').onChange(updateLight);
-    gui.add(new DegRadHelper(light.rotation, 'y'), 'value', -180, 180).name('y rotation').onChange(updateLight);
-    gui.add(new DegRadHelper(light.rotation, 'z'), 'value', -180, 180).name('z rotation').onChange(updateLight);
+    // Folder Parámetros de la Cámara
+    {
+      const folder = gui.addFolder('Parámetros de la Cámara');
+      folder.add(camera, 'fov', 1, 180).onChange(updateCamera);
+      const minMaxGUIHelper = new MinMaxGUIHelper(camera, 'near', 'far', 0.1);
+      folder.add(minMaxGUIHelper, 'min', 0.1, 50, 0.1).name('near').onChange(updateCamera);
+      folder.add(minMaxGUIHelper, 'max', 0.1, 50, 0.1).name('far').onChange(updateCamera);
+    }
 
-    makeXYZGUI(gui, light.position, 'position', updateLight);
+    
+    // Folder Parámetros de la fuente de luz
+    {
+      const folder = gui.addFolder('Parámetros de la Fuente de Luz');
+      folder.addColor(new ColorGUIHelper(light, 'color'), 'value').name('color');
+      folder.add(light, 'intensity', 0, 10, 0.01);
+      folder.add(light, 'width', 0, 50).onChange(updateLight);
+      folder.add(light, 'height', 0, 50).onChange(updateLight);
+      //folder.open();
+    }
+
+    // Folder Rotación de la fuente de Luz
+    {
+      const folder = gui.addFolder('Rotación de la Fuente de Luz');
+      folder.add(new DegRadHelper(light.rotation, 'x'), 'value', -180, 180).name('x rotation').onChange(updateLight);
+      folder.add(new DegRadHelper(light.rotation, 'y'), 'value', -180, 180).name('y rotation').onChange(updateLight);
+      folder.add(new DegRadHelper(light.rotation, 'z'), 'value', -180, 180).name('z rotation').onChange(updateLight);
+      //folder.open();
+    }
+
+    // Folder Posición de la Fuente de Luz
+    {
+      const folder = gui.addFolder('Posición de la Fuente de Luz');
+      folder.add(light.position, 'x', -30, 30).onChange(updateLight);
+      folder.add(light.position, 'y', -100, 100).onChange(updateLight);
+      folder.add(light.position, 'z', -30, 30).onChange(updateLight);
+      //folder.open();
+    }
   }
 
   function resizeRendererToDisplaySize(renderer) {
