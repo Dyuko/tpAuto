@@ -668,21 +668,17 @@ function main() {
     // Folder Material Carrocería
     {
       const folder = gui.addFolder( 'Carrocería: Propiedades del Material' );
-
       folder.add( materialCarroceria, 'transparent' );
       folder.add( materialCarroceria, 'opacity', 0, 1 ).step( 0.01 );
       folder.add( materialCarroceria, 'depthTest' );
       folder.add( materialCarroceria, 'depthWrite' );
       folder.add( materialCarroceria, 'visible' );
-
       const data = {
         color: materialCarroceria.color.getHex(),
         emissive: materialCarroceria.emissive.getHex()
       };
-
       folder.addColor( data, 'color' ).onChange( handleColorChange( materialCarroceria.color ) );
       folder.addColor( data, 'emissive' ).onChange( handleColorChange( materialCarroceria.emissive ) );
-
       folder.add( materialCarroceria, 'roughness', 0, 1 );
       folder.add( materialCarroceria, 'metalness', 0, 1 );
       folder.add( materialCarroceria, 'reflectivity', 0, 1 );
@@ -690,6 +686,28 @@ function main() {
       folder.add( materialCarroceria, 'clearcoatRoughness', 0, 1 ).step( 0.01 );
       folder.add( materialCarroceria, 'wireframe' );
       folder.add( materialCarroceria, 'wireframeLinewidth', 0, 10 );
+    }
+    // Folder Material Vidrios
+    {
+      const folder = gui.addFolder( 'Vidrios: Propiedades del Material' );
+      folder.add( materialVidrio, 'transparent' );
+      folder.add( materialVidrio, 'opacity', 0, 1 ).step( 0.01 );
+      folder.add( materialVidrio, 'depthTest' );
+      folder.add( materialVidrio, 'depthWrite' );
+      folder.add( materialVidrio, 'visible' );
+      const data = {
+        color: materialVidrio.color.getHex(),
+        emissive: materialVidrio.emissive.getHex()
+      };
+      folder.addColor( data, 'color' ).onChange( handleColorChange( materialVidrio.color ) );
+      folder.addColor( data, 'emissive' ).onChange( handleColorChange( materialVidrio.emissive ) );
+      folder.add( materialVidrio, 'roughness', 0, 1 );
+      folder.add( materialVidrio, 'metalness', 0, 1 );
+      folder.add( materialVidrio, 'reflectivity', 0, 1 );
+      folder.add( materialVidrio, 'clearcoat', 0, 1 ).step( 0.01 );
+      folder.add( materialVidrio, 'clearcoatRoughness', 0, 1 ).step( 0.01 );
+      folder.add( materialVidrio, 'wireframe' );
+      folder.add( materialVidrio, 'wireframeLinewidth', 0, 10 );
     }
   }
 
