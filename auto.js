@@ -3,6 +3,7 @@ import {OrbitControls} from './threejs/resources/threejs/r122/examples/jsm/contr
 import {RectAreaLightUniformsLib} from './threejs/resources/threejs/r122/examples/jsm/lights/RectAreaLightUniformsLib.js';
 import {RectAreaLightHelper} from './threejs/resources/threejs/r122/examples/jsm/helpers/RectAreaLightHelper.js';
 import {GUI} from './threejs/../3rdparty/dat.gui.module.js';
+import { GLTFLoader } from './threejs/resources/threejs/r122/examples/jsm/loaders/GLTFLoader.js';
 
 function main() {
   const canvas = document.querySelector('#c');
@@ -21,7 +22,20 @@ function main() {
   controls.update();
   // Escena
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color('skyblue');
+  scene.background = new THREE.Color('black');
+
+  // Objeto 3D - Diorama Cemento
+  {
+    const loader = new GLTFLoader();
+    loader.load( './threejs/resources/objects/dioramaCemento.glb', function ( gltf ) {
+      const escena = gltf.scene;
+      escena.scale.set(20,20,20);
+      escena.position.set(0,1.8,0);
+      scene.add(escena);
+    }, undefined, function ( error ) {
+      console.error( error );
+    } );
+  }
 
   // Se crea el grupo auto, todo el grupo puede ser rotado, escalado 
   const auto = new THREE.Group();
@@ -66,28 +80,6 @@ function main() {
   const materialAlfombra = new THREE.MeshPhysicalMaterial({side: THREE.DoubleSide});
   hue = Math.random();
   materialAlfombra.color.setHSL(hue, saturation, luminance);
-
-  // Piso de la escena - Carga una textura
-  {
-    const planeSize = 40;
-    const loader = new THREE.TextureLoader();
-    const texture = loader.load('./threejs/resources/images/piso.jpg');
-    texture.wrapS = THREE.RepeatWrapping;
-    texture.wrapT = THREE.RepeatWrapping;
-    texture.magFilter = THREE.NearestFilter;
-    const repeats = planeSize / 2;
-    texture.repeat.set(repeats, repeats);
-
-    const planeGeo = new THREE.PlaneBufferGeometry(planeSize, planeSize);
-    const planeMat = new THREE.MeshStandardMaterial({
-      map: texture,
-      side: THREE.DoubleSide,
-    });
-    const mesh = new THREE.Mesh(planeGeo, planeMat);
-    mesh.rotation.x = Math.PI * -.5;
-    mesh.position.set(0,2.03124,0);
-    scene.add(mesh);
-  }
 
   // Crea un nuevo cubo 
   function nuevoCube(material, {width, height, depth, positionX, positionY, positionZ, rotationX, rotationY, rotationZ}) {
