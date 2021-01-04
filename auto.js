@@ -30,12 +30,12 @@ function main() {
   // Se crea el grupo auto, todo el grupo puede ser rotado, escalado 
   const auto = new THREE.Group();
 
-  // Modulo: Plano
+  // Modulo: Piso de la escena
   {
     const planeSize = 40;
 
     const loader = new THREE.TextureLoader();
-    const texture = loader.load('./threejs/resources/images/checker.png');
+    const texture = loader.load('./threejs/resources/images/piso.jpg');
     texture.wrapS = THREE.RepeatWrapping;
     texture.wrapT = THREE.RepeatWrapping;
     texture.magFilter = THREE.NearestFilter;
@@ -49,6 +49,7 @@ function main() {
     });
     const mesh = new THREE.Mesh(planeGeo, planeMat);
     mesh.rotation.x = Math.PI * -.5;
+    mesh.position.set(0,2.03124,0);
     scene.add(mesh);
   }
 
