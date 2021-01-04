@@ -622,7 +622,7 @@ function main() {
     const gui = new GUI();
     // Folder Parámetros de la Cámara
     {
-      const folder = gui.addFolder('Parámetros de la Cámara');
+      const folder = gui.addFolder('Cámara: Fov, Near, Far');
       folder.add(camera, 'fov', 1, 180).onChange(updateCamera);
       const minMaxGUIHelper = new MinMaxGUIHelper(camera, 'near', 'far', 0.1);
       folder.add(minMaxGUIHelper, 'min', 0.1, 50, 0.1).name('near').onChange(updateCamera);
@@ -632,30 +632,43 @@ function main() {
     
     // Folder Parámetros de la fuente de luz
     {
-      const folder = gui.addFolder('Parámetros de la Fuente de Luz');
+      const folder = gui.addFolder('Luz: Color, Intensity, Width, Height');
       folder.addColor(new ColorGUIHelper(light, 'color'), 'value').name('color');
       folder.add(light, 'intensity', 0, 10, 0.01);
       folder.add(light, 'width', 0, 50).onChange(updateLight);
       folder.add(light, 'height', 0, 50).onChange(updateLight);
-      //folder.open();
-    }
-
-    // Folder Rotación de la fuente de Luz
-    {
-      const folder = gui.addFolder('Rotación de la Fuente de Luz');
-      folder.add(new DegRadHelper(light.rotation, 'x'), 'value', -180, 180).name('x rotation').onChange(updateLight);
-      folder.add(new DegRadHelper(light.rotation, 'y'), 'value', -180, 180).name('y rotation').onChange(updateLight);
-      folder.add(new DegRadHelper(light.rotation, 'z'), 'value', -180, 180).name('z rotation').onChange(updateLight);
-      //folder.open();
     }
 
     // Folder Posición de la Fuente de Luz
     {
-      const folder = gui.addFolder('Posición de la Fuente de Luz');
+      const folder = gui.addFolder('Luz: Posición x, y, z');
       folder.add(light.position, 'x', -30, 30).onChange(updateLight);
       folder.add(light.position, 'y', -100, 100).onChange(updateLight);
       folder.add(light.position, 'z', -30, 30).onChange(updateLight);
-      //folder.open();
+    }
+
+    // Folder Rotación de la fuente de Luz
+    {
+      const folder = gui.addFolder('Luz: Rotación x, y, z');
+      folder.add(new DegRadHelper(light.rotation, 'x'), 'value', -180, 180).name('Rotación en x').onChange(updateLight);
+      folder.add(new DegRadHelper(light.rotation, 'y'), 'value', -180, 180).name('Rotación en y').onChange(updateLight);
+      folder.add(new DegRadHelper(light.rotation, 'z'), 'value', -180, 180).name('Rotación en z').onChange(updateLight);
+    }
+
+    // Folder Posición del auto
+    {
+      const folder = gui.addFolder('Auto: Posición x, y, z');
+      folder.add(new DegRadHelper(auto.position, 'x'), 'value', -180, 180).name('Posición x').onChange(updateLight);
+      folder.add(new DegRadHelper(auto.position, 'y'), 'value', -180, 180).name('Posición y').onChange(updateLight);
+      folder.add(new DegRadHelper(auto.position, 'z'), 'value', -180, 180).name('Posición z').onChange(updateLight);
+    }
+
+    // Folder Rotación del auto
+    {
+      const folder = gui.addFolder('Auto: Rotación x, y, z');
+      folder.add(new DegRadHelper(auto.rotation, 'x'), 'value', -180, 180).name('Rotación en x').onChange(updateLight);
+      folder.add(new DegRadHelper(auto.rotation, 'y'), 'value', -180, 180).name('Rotación en y').onChange(updateLight);
+      folder.add(new DegRadHelper(auto.rotation, 'z'), 'value', -180, 180).name('Rotación en z').onChange(updateLight);
     }
   }
 
